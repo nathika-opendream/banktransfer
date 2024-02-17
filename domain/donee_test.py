@@ -1,30 +1,33 @@
-from domain.donee import Donee, DoneeType
+from dataclasses import FrozenInstanceError
+
 import pytest
 
-from dataclasses import FrozenInstanceError
+from domain.donee import Donee, DoneeType
+
 
 @pytest.fixture
 def my_donee() -> Donee:
     return Donee(
         ref_id=1,
         name="Covid-19 Relief Fund",
-        donee_type=DoneeType.Project,
+        donee_type=DoneeType.PROJECT,
         meta={"key": "value"},
     )
+
 
 class TestDonee:
     def test_donee(self):
         donee_1 = Donee(
             ref_id=1,
             name="name",
-            donee_type=DoneeType.Project,
+            donee_type=DoneeType.PROJECT,
             meta={"key": "value"},
         )
 
         donee_2 = Donee(
             ref_id=1,
             name="name",
-            donee_type=DoneeType.Project,
+            donee_type=DoneeType.PROJECT,
             meta={"key": "value"},
         )
 
@@ -35,5 +38,3 @@ class TestDonee:
 
         with pytest.raises(FrozenInstanceError):
             donee_1.ref_id = 2
-        
-    

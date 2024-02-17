@@ -1,10 +1,11 @@
-from enum import Enum
 from dataclasses import dataclass
+from enum import Enum
 
 
 class DonorType(Enum):
-    Individual = "PER"
-    Organization = "ORG"
+    INDIVIDUAL = "per"
+    ORGANIZATION = "org"
+
 
 @dataclass(frozen=True)
 class Donor:
@@ -28,4 +29,3 @@ class Donor:
             tax_id=self.tax_id,
             member_id=self.member_id,
         )
-    

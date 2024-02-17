@@ -1,11 +1,14 @@
-from domain.donor import Donor, DonorType
-import pytest
 from dataclasses import FrozenInstanceError
+
+import pytest
+
+from domain.donor import Donor, DonorType
+
 
 @pytest.fixture
 def my_donor() -> Donor:
     return Donor(
-        donor_type=DonorType.Individual,
+        donor_type=DonorType.INDIVIDUAL,
         email="email@mail,com",
         phone="0987654321",
         name1="John",
@@ -15,10 +18,11 @@ def my_donor() -> Donor:
         member_id="1234",
     )
 
+
 class TestDonor:
     def test_donor(self):
         donor_1 = Donor(
-            donor_type=DonorType.Individual,
+            donor_type=DonorType.INDIVIDUAL,
             email="email@mail,com",
             phone="0987654321",
             name1="John",
@@ -27,9 +31,9 @@ class TestDonor:
             tax_id="1234567890987",
             member_id="1234",
         )
-        
+
         donor_2 = Donor(
-            donor_type=DonorType.Individual,
+            donor_type=DonorType.INDIVIDUAL,
             email="email@mail,com",
             phone="0987654321",
             name1="John",
@@ -53,5 +57,3 @@ class TestDonor:
         new_donor = donor_1.change_name(name1="Jane", name2="Doe")
         assert new_donor.name1 == "Jane"
         assert new_donor.name2 == "Doe"
-
-        

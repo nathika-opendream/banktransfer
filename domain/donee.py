@@ -3,11 +3,12 @@ from enum import Enum
 
 
 class DoneeType(Enum):
-    Project = "PROJ"
-    Fundraiser = "FUND"
-    Cart = "CART"
-    Campaigner = "CAMP"
-    Microsite = "MICS"
+    PROJECT = "proj"
+    FUNDRAISER = "fund"
+    CART = "cart"
+    CAMPAIGNER = "camp"
+    MICROSITE = "mics"
+
 
 @dataclass(frozen=True)
 class Donee:
@@ -15,4 +16,3 @@ class Donee:
     name: str
     donee_type: DoneeType
     meta: dict
-   
