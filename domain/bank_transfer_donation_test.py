@@ -5,8 +5,8 @@ import pytest
 from domain.bank_transfer_donation import (
     BankTransferDonation,
     BankTransferDonationStatus,
-    BankTransferNote,
 )
+from domain.bank_transfer_note import BankTransferNote
 from domain.donee import Donee, DoneeType
 from domain.donor import Donor, DonorType
 from domain.money import Money

@@ -2,6 +2,8 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
+from domain.bank_transfer_note import BankTransferNote
+from domain.bank_transfer_transaction import BankTransferTransaction
 from domain.donee import Donee
 from domain.donor import Donor
 from domain.money import Money
@@ -11,53 +13,6 @@ class BankTransferDonationStatus(Enum):
     NEW = "new"
     PENDING = "pending"
     PAID = "paid"
-
-
-class BankTransferNote:
-    def __init__(
-        self,
-        note: str,
-        amount: Money,
-        date: datetime,
-        id: int = None,
-    ):
-        self.id = id  # this will exist after the note is saved
-        self.note = note
-        self.amount = amount
-        self.date = date
-
-    def __eq__(self, other):
-        return (
-            self.id == other.id
-            and self.note == other.note
-            and self.amount == other.amount
-            and self.date == other.date
-        )
-
-
-class BankTransferTransaction:
-    def __init__(
-        self,
-        transaction_id: str,
-        date: datetime,
-        amount: Money,
-        note_id: int,
-        id: int = None,
-    ):
-        self.id = id  # this will exist after the transaction is saved
-        self.transaction_id = transaction_id
-        self.date = date
-        self.amount = amount
-        self.note_id = note_id
-
-    def __eq__(self, other):
-        return (
-            self.id == other.id
-            and self.transaction_id == other.transaction_id
-            and self.date == other.date
-            and self.amount == other.amount
-            and self.note_id == other.note_id
-        )
 
 
 class BankTransferDonation:
