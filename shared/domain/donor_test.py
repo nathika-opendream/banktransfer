@@ -1,8 +1,7 @@
 from dataclasses import FrozenInstanceError
 
 import pytest
-
-from domain.donor import Donor, DonorType
+from donor import Donor, DonorType
 
 
 @pytest.fixture

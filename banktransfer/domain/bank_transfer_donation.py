@@ -2,11 +2,12 @@ from datetime import datetime
 from enum import Enum
 from typing import Any
 
-from domain.bank_transfer_note import BankTransferNote
-from domain.bank_transfer_transaction import BankTransferTransaction
-from domain.donee import Donee
-from domain.donor import Donor
-from domain.money import Money
+from bank_transfer_note import BankTransferNote
+from bank_transfer_transaction import BankTransferTransaction
+
+from shared.domain.donee import Donee
+from shared.domain.donor import Donor
+from shared.domain.money import Money
 
 
 class BankTransferDonationStatus(Enum):

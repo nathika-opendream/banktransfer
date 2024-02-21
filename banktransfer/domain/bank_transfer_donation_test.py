@@ -1,15 +1,12 @@
 from datetime import datetime
 
 import pytest
+from bank_transfer_donation import BankTransferDonation, BankTransferDonationStatus
+from bank_transfer_note import BankTransferNote
 
-from domain.bank_transfer_donation import (
-    BankTransferDonation,
-    BankTransferDonationStatus,
-)
-from domain.bank_transfer_note import BankTransferNote
-from domain.donee import Donee, DoneeType
-from domain.donor import Donor, DonorType
-from domain.money import Money
+from shared.domain.donee import Donee, DoneeType
+from shared.domain.donor import Donor, DonorType
+from shared.domain.money import Money
 
 
 @pytest.fixture
@@ -47,7 +44,7 @@ def my_note() -> BankTransferNote:
 
 
 class TestBankTransferDonation:
-    def test_create_bank_transfer_donation(my_donor, my_donee):
+    def test_create_bank_transfer_donation(my_donor: Donor, my_donee: Donee):
         donor = my_donor
         donee = my_donee
 
@@ -72,7 +69,7 @@ class TestBankTransferDonation:
         assert bank_transfer_donation.form_data == {}
         assert bank_transfer_donation.meta == {}
 
-    def test_add_note_to_bank_transfer_donation(my_donor, my_donee):
+    def test_add_note_to_bank_transfer_donation(my_donor: Donor, my_donee: Donee):
         donor = my_donor
         donee = my_donee
 
@@ -98,7 +95,9 @@ class TestBankTransferDonation:
         assert bank_transfer_donation.status == BankTransferDonationStatus.PENDING
         assert len(bank_transfer_donation.notes) == 1
 
-    def test_confirm_bank_transfer_donation(my_donor, my_donee, my_note):
+    def test_confirm_bank_transfer_donation(
+        my_donor: Donor, my_donee: Donee, my_note: BankTransferNote
+    ):
         donor = my_donor
         donee = my_donee
         note = my_note

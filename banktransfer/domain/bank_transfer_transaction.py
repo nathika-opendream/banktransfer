@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from domain.money import Money
+from shared.domain.money import Money
 
 
 class BankTransferTransaction:
