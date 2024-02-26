@@ -1,25 +1,24 @@
+import uuid
+from dataclasses import dataclass
 from datetime import datetime
 
 from shared.domain.money import Money
 
 
+@dataclass
 class BankTransferNote:
-    def __init__(
-        self,
-        note: str,
-        amount: Money,
-        date: datetime,
-        id: int = None,
-    ):
-        self.id = id  # this will exist after the note is saved
-        self.note = note
-        self.amount = amount
-        self.date = date
+    id: int
+    note: str
+    amount: Money
+    date: datetime
 
-    def __eq__(self, other):
-        return (
-            self.id == other.id
-            and self.note == other.note
-            and self.amount == other.amount
-            and self.date == other.date
+    @staticmethod
+    def new_bank_transfer_note(
+        note: str, amount: Money, date: datetime
+    ) -> "BankTransferNote":
+        return BankTransferNote(
+            id=uuid.uuid4(),
+            note=note,
+            amount=amount,
+            date=date,
         )

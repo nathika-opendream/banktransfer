@@ -9,7 +9,7 @@ def my_donee() -> Donee:
     return Donee(
         ref_id=1,
         name="Covid-19 Relief Fund",
-        donee_type=DoneeType.PROJECT,
+        donee_type=DoneeType.PROJ,
         meta={"key": "value"},
     )
 
@@ -19,14 +19,14 @@ class TestDonee:
         donee_1 = Donee(
             ref_id=1,
             name="name",
-            donee_type=DoneeType.PROJECT,
+            donee_type=DoneeType.PROJ,
             meta={"key": "value"},
         )
 
         donee_2 = Donee(
             ref_id=1,
             name="name",
-            donee_type=DoneeType.PROJECT,
+            donee_type=DoneeType.PROJ,
             meta={"key": "value"},
         )
 

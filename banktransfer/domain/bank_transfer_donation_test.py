@@ -12,7 +12,7 @@ from shared.domain.money import Money
 @pytest.fixture
 def my_donor() -> Donor:
     return Donor(
-        donor_type=DonorType.INDIVIDUAL,
+        donor_type=DonorType.PER,
         email="email@mail,com",
         phone="0987654321",
         name1="John",
@@ -28,18 +28,8 @@ def my_donee() -> Donee:
     return Donee(
         ref_id=1,
         name="Covid-19 Relief Fund",
-        donee_type=DoneeType.PROJECT,
+        donee_type=DoneeType.PROJ,
         meta={"key": "value"},
-    )
-
-
-@pytest.fixture
-def my_note() -> BankTransferNote:
-    return BankTransferNote(
-        id=1,
-        note="note",
-        amount=Money(amount=100, currency="THB"),
-        date=datetime.now(),
     )
 
 
@@ -48,15 +38,13 @@ class TestBankTransferDonation:
         donor = my_donor
         donee = my_donee
 
-        bank_transfer_donation = BankTransferDonation(
-            id=1,
-            donation_number="123456",
-            expected_amount=Money(amount=100, currency="USD"),
+        bank_transfer_donation = BankTransferDonation.new_bank_transfer_donation(
             donor=donor,
             donee=donee,
+            donation_number="123456",
+            expected_amount=Money(amount=100, currency="USD"),
         )
 
-        assert bank_transfer_donation.id == 1
         assert bank_transfer_donation.donation_number == "123456"
         assert bank_transfer_donation.expected_amount == Money(
             amount=100, currency="USD"
@@ -73,12 +61,11 @@ class TestBankTransferDonation:
         donor = my_donor
         donee = my_donee
 
-        bank_transfer_donation = BankTransferDonation(
-            id=1,
-            donation_number="123456",
-            expected_amount=Money(amount=100, currency="USD"),
+        bank_transfer_donation = BankTransferDonation.new_bank_transfer_donation(
             donor=donor,
             donee=donee,
+            donation_number="123456",
+            expected_amount=Money(amount=100, currency="USD"),
         )
 
         assert bank_transfer_donation.notes == []
@@ -95,30 +82,31 @@ class TestBankTransferDonation:
         assert bank_transfer_donation.status == BankTransferDonationStatus.PENDING
         assert len(bank_transfer_donation.notes) == 1
 
-    def test_confirm_bank_transfer_donation(
-        my_donor: Donor, my_donee: Donee, my_note: BankTransferNote
-    ):
+    def test_confirm_bank_transfer_donation(my_donor: Donor, my_donee: Donee):
         donor = my_donor
         donee = my_donee
-        note = my_note
 
-        bank_transfer_donation = BankTransferDonation(
-            id=1,
-            donation_number="123456",
-            expected_amount=Money(amount=100, currency="USD"),
+        bank_transfer_donation = BankTransferDonation.new_bank_transfer_donation(
             donor=donor,
             donee=donee,
-            notes=[note],
+            donation_number="123456",
+            expected_amount=Money(amount=100, currency="USD"),
+        )
+
+        bank_transfer_donation.add_note(
+            note="test",
+            amount=Money(amount=100, currency="THB"),
+            date=datetime.now(),
         )
 
         transaction = bank_transfer_donation.confirm_transaction(
             transaction_id=1,
             date=datetime.now(),
             amount=Money(amount=100, currency="THB"),
-            note_id=1,
+            note_id=bank_transfer_donation.notes[0].id,
         )
         assert bank_transfer_donation.status == BankTransferDonationStatus.PAID
         assert len(bank_transfer_donation.transactions) == 1
         assert transaction.amount == Money(amount=100, currency="THB")
-        assert transaction.note_id == note.id
+        assert transaction.note_id == bank_transfer_donation.notes[0].id
         assert transaction.date is not None

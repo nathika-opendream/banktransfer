@@ -7,7 +7,7 @@ from donor import Donor, DonorType
 @pytest.fixture
 def my_donor() -> Donor:
     return Donor(
-        donor_type=DonorType.INDIVIDUAL,
+        donor_type=DonorType.PER,
         email="email@mail,com",
         phone="0987654321",
         name1="John",
@@ -21,7 +21,7 @@ def my_donor() -> Donor:
 class TestDonor:
     def test_donor(self):
         donor_1 = Donor(
-            donor_type=DonorType.INDIVIDUAL,
+            donor_type=DonorType.PER,
             email="email@mail,com",
             phone="0987654321",
             name1="John",
@@ -32,7 +32,7 @@ class TestDonor:
         )
 
         donor_2 = Donor(
-            donor_type=DonorType.INDIVIDUAL,
+            donor_type=DonorType.PER,
             email="email@mail,com",
             phone="0987654321",
             name1="John",

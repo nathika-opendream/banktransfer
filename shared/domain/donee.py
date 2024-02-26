@@ -3,11 +3,11 @@ from enum import Enum
 
 
 class DoneeType(Enum):
-    PROJECT = "proj"
-    FUNDRAISER = "fund"
-    CART = "cart"
-    CAMPAIGNER = "camp"
-    MICROSITE = "mics"
+    PROJ = "PROJ"
+    FUND = "FUND"
+    CART = "CART"
+    CAMP = "CAMP"
+    MICS = "MICS"
 
 
 @dataclass(frozen=True)

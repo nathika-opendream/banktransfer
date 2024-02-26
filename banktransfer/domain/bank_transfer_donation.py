@@ -1,52 +1,69 @@
+import uuid
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from typing import Any
 
-from bank_transfer_note import BankTransferNote
-from bank_transfer_transaction import BankTransferTransaction
-
+from banktransfer.domain.bank_transfer_note import BankTransferNote
+from banktransfer.domain.bank_transfer_transaction import BankTransferTransaction
 from shared.domain.donee import Donee
 from shared.domain.donor import Donor
 from shared.domain.money import Money
 
 
 class BankTransferDonationStatus(Enum):
-    NEW = "new"
-    PENDING = "pending"
-    PAID = "paid"
+    NEW = "NEW"
+    PENDING = "PENDING"
+    PAID = "PAID"
 
 
+@dataclass
 class BankTransferDonation:
-    def __init__(
-        self,
-        id: int,
-        donation_number: str,
-        expected_amount: Money,
+    id: uuid.UUID
+    version: int
+    created_at: datetime
+    updated_at: datetime
+    donation_number: str
+    expected_amount: Money
+    donor: Donor
+    donee: Donee
+    notes: list[BankTransferNote]
+    transactions: list[BankTransferTransaction]
+    status: BankTransferDonationStatus
+    form_data: dict
+    meta: dict
+    donation_created_at: datetime
+
+    @staticmethod
+    def new_bank_transfer_donation(
         donor: Donor,
         donee: Donee,
-        notes: list[BankTransferNote] = [],
-        transactions: list[BankTransferTransaction] = [],
-        status: BankTransferDonationStatus = BankTransferDonationStatus.NEW,
-        form_data: dict[str, Any] = {},
-        meta: dict[str, Any] = {},
-    ):
-        self.id = id
-        self.donation_number = donation_number
-        self.expected_amount = expected_amount
-        self.donor = donor
-        self.donee = donee
-        self.notes = notes
-        self.transactions = transactions
-        self.status = status
-        self.form_data = form_data
-        self.meta = meta
+        donation_number: str,
+        expected_amount: Money,
+    ) -> "BankTransferDonation":
+        return BankTransferDonation(
+            id=uuid.uuid4(),
+            version=1,
+            created_at=datetime.now(),
+            updated_at=datetime.now(),
+            donation_number=donation_number,
+            expected_amount=expected_amount,
+            donor=donor,
+            donee=donee,
+            notes=[],
+            transactions=[],
+            status=BankTransferDonationStatus.NEW,
+            form_data={},
+            meta={},
+            donation_created_at=None,
+        )
 
     def add_note(self, note: str, amount: Money, date: datetime):
         if amount == 0:
             raise ValueError("Amount must be greater than 0")
 
         if not self.transactions:
-            note = BankTransferNote(
+            note = BankTransferNote.new_bank_transfer_note(
                 note=note,
                 amount=amount,
                 date=date,
@@ -86,7 +103,7 @@ class BankTransferDonation:
                 ):
                     return transaction
 
-            transaction = BankTransferTransaction(
+            transaction = BankTransferTransaction.new_bank_transfer_transaction(
                 transaction_id=transaction_id,
                 date=date,
                 amount=amount,

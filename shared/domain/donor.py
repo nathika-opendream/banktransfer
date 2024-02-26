@@ -3,8 +3,8 @@ from enum import Enum
 
 
 class DonorType(Enum):
-    INDIVIDUAL = "per"
-    ORGANIZATION = "org"
+    PER = "PER"
+    ORG = "ORG"
 
 
 @dataclass(frozen=True)
