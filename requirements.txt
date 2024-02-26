@@ -1,6 +1,14 @@
+asyncio==3.4.3
 iniconfig==2.0.0
+mirakuru==2.5.2
 packaging==23.2
 pluggy==1.4.0
+port-for==0.7.2
+psutil==5.9.8
+psycopg==3.1.18
+psycopg2==2.9.9
 pytest==8.0.1
+pytest-postgresql==5.1.0
+python-mf-data==0.2.6
 SQLAlchemy==2.0.27
 typing_extensions==4.9.0
