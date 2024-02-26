@@ -1,5 +1,4 @@
 from sqlalchemy import (
-    BIGINT,
     JSON,
     UUID,
     Column,

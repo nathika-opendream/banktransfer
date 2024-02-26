@@ -49,6 +49,9 @@ def session():
     metadata.create_all(engine)
     yield session
 
+    session.close()
+    clear_mappers()
+
 
 def test_bank_transfer_mapper_can_add(session, my_donor, my_donee):
     donor = my_donor
